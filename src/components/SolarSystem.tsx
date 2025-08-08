@@ -14,9 +14,9 @@ const SolarSystem: React.FC<SolarSystemProps> = ({ onPlanetClick }) => {
     <Canvas camera={{ position: [0, 40, 80], fov: 45 }}>
       <ambientLight intensity={0.4} />
       <pointLight position={[0, 0, 0]} intensity={2.5} />
-      <Sun />
+      <Sun texturePath="/textures/sun_texture.jpg" />
       {planetData.map((planet) => (
-        <Planet key={planet.name} planet={planet} onPlanetClick={onPlanetClick} />
+        <Planet key={planet.name} planet={planet} onPlanetClick={onPlanetClick} texturePath={`/textures/${planet.name.toLowerCase()}_texture.jpg`} />
       ))}
       <OrbitControls />
     </Canvas>

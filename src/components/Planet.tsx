@@ -1,15 +1,18 @@
 import React, { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
+import { TextureLoader } from 'three';
 import { PlanetData } from '../data/planetData';
 
 interface PlanetProps {
   planet: PlanetData;
   onPlanetClick: (planet: PlanetData) => void;
+  texturePath: string;
 }
 
-const Planet: React.FC<PlanetProps> = ({ planet, onPlanetClick }) => {
+const Planet: React.FC<PlanetProps> = ({ planet, onPlanetClick, texturePath }) => {
   const meshRef = useRef<THREE.Mesh>(null!);
+  const texture = useLoader(TextureLoader, texturePath);
 
   useFrame(({ clock }) => {
     if (meshRef.current) {
@@ -27,7 +30,7 @@ const Planet: React.FC<PlanetProps> = ({ planet, onPlanetClick }) => {
       onClick={() => onPlanetClick(planet)}
     >
       <sphereGeometry args={[planet.size, 32, 32]} />
-      <meshStandardMaterial color={planet.color} />
+      <meshStandardMaterial map={texture} />
     </mesh>
   );
 };
