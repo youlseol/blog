@@ -3,20 +3,19 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import Sun from './Sun';
 import Planet from './Planet';
-import { PlanetData, planetData } from '../data/planetData';
+import { planetData } from '../data/planetData';
 
 interface SolarSystemProps {
-  onPlanetClick: (planet: PlanetData) => void;
+  onPlanetClick: (planetName: string) => void;
 }
 
 const SolarSystem: React.FC<SolarSystemProps> = ({ onPlanetClick }) => {
   return (
-    <Canvas camera={{ position: [0, 40, 80], fov: 45 }}>
-      <ambientLight intensity={0.4} />
-      <pointLight position={[0, 0, 0]} intensity={2.5} />
-      <Sun texturePath="/textures/sun_texture.jpg" />
-      {planetData.map((planet) => (
-        <Planet key={planet.name} planet={planet} onPlanetClick={onPlanetClick} texturePath={`/textures/${planet.name.toLowerCase()}_texture.jpg`} />
+    <Canvas camera={{ position: [0, 100, 200], fov: 45 }}>
+      <ambientLight intensity={0.2} />
+      <Sun />
+      {planetData.map(planet => (
+        <Planet key={planet.name} {...planet} onClick={onPlanetClick} />
       ))}
       <OrbitControls />
     </Canvas>

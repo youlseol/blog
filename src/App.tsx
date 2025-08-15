@@ -1,24 +1,32 @@
-import { useState } from 'react';
-import PlanetCharts from './components/PlanetCharts';
-import PlanetInfo from './components/PlanetInfo';
+import React, { useState } from 'react';
 import SolarSystem from './components/SolarSystem';
+import PostList from './components/PostList';
+import { PlanetData, planetData } from './data/planetData';
 import './styles/App.css';
-import { PlanetData } from './data/planetData';
 
 function App() {
   const [selectedPlanet, setSelectedPlanet] = useState<PlanetData | null>(null);
 
+  const handlePlanetClick = (planetName: string) => {
+    const planet = planetData.find(p => p.name === planetName);
+    setSelectedPlanet(planet || null);
+  };
+
+  const handleBackClick = () => {
+    setSelectedPlanet(null);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>태양계 탐험</h1>
+    <>
+      <header className="header">
+        <h1>Stellar Journeys</h1>
       </header>
-      <div style={{ height: '60vh' }}>
-        <SolarSystem onPlanetClick={setSelectedPlanet} />
-      </div>
-      <PlanetInfo planet={selectedPlanet} />
-      <PlanetCharts />
-    </div>
+      {selectedPlanet ? (
+        <PostList planet={selectedPlanet} onBackClick={handleBackClick} />
+      ) : (
+        <SolarSystem onPlanetClick={handlePlanetClick} />
+      )}
+    </>
   );
 }
 
